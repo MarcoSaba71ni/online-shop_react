@@ -2,6 +2,7 @@ import { useState } from "react";
 import ProductList from "./components/productList";
 
 function App() {
+
   const [products, setProducts] = useState([
     {
       id: 1,
@@ -35,16 +36,20 @@ function App() {
   }
 
   return (
+    <>
     <main>
       <h1>Online Shop</h1>
 
       <ProductList
         products={products}
         onAdd={addProduct}
-        onRemove={removeProduct}
-      />
+        onRemove={removeProduct}/>
     </main>
+    </>
+    
   );
+
+
 }
 
 export default App;
