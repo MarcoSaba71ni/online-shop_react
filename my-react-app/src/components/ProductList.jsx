@@ -4,7 +4,7 @@ function ProductList({ products, onAdd, onRemove }) {
   return (
     <div className="product-list">
       {products.map((product) => (
-        <ProductCard
+        <productCard
           key={product.id}
           product={product}
           onAdd={onAdd}
