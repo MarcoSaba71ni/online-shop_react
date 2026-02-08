@@ -1,17 +1,24 @@
-function productCard({product , onAdd , onRemove}) {
+import { Link } from "@tanstack/react-router";
+
+function ProductCard({product , onAdd , onRemove}) {
     return (
         <div>
-            <h3>{product.name}</h3>
-            <p>Price: ${product.price}</p>
+            <Link
+            to= "/products/$productId"
+            params={{productId: product.id}}>
+                <h3>{product.title}</h3>
+                <p>Price: ${product.price}</p>
+            </Link>
+                <button onClick = {() => onAdd(product.title, product.price)}>
+                    Add to Cart
+                </button>
+                <button onClick = {() => onRemove(product.id) }>
+                    Remove
+                </button>
 
-            <button onClick ={onAdd(product)}> 
-            Add to Cart</button>
-
-            <button onClick ={onRemove(product)}>
-            Remove</button>
 
         </div>
     );
 }
 
-export default productCard;
+export default ProductCard;
