@@ -2,6 +2,8 @@ import React from "react";
 import { useState } from "react";
 import ProductList from "../components/productList";
 
+
+
 export function HomePage() {
     const [products, setProducts] = useState([
         {
@@ -36,8 +38,8 @@ export function HomePage() {
       }; 
       
     return (
-        <div>
-            <h2>Products</h2>
+        <div className="flex flex-col gap-2 ml-24 mt-6">
+            <h2 className="text-2xl font-bold mb-4">Products</h2>
             <ProductList
             products={products}
             onAdd={addProduct}
