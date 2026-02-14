@@ -11,6 +11,7 @@ function App() {
         <nav className="flex flex-row gap-2">
           <Link to="/">Home</Link>
           <Link to="/about">About</Link>
+          <Link to="/cart">View Cart</Link>
         </nav>
     </header>
     <main>

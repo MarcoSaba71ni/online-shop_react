@@ -1,12 +1,16 @@
 import React from "react";
 import { productRoute } from "../router/Router";
 import ProductCard from "../components/productCard";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../features/cart/cartSlice";
+import { Link } from "@tanstack/react-router";
 
 
 export function ProductPage() {
   const { productId } = productRoute.useParams();
   console.log(productId);
   console.log(productId.title);
+  const dispatch = useDispatch();
   return (
     <div className="min-h-screen bg-gray-100 p-6 flex justify-center items-start">
       <div className="bg-white shadow-xl rounded-2xl p-8 max-w-2xl w-full">
@@ -16,12 +20,13 @@ export function ProductPage() {
           <p className="text-lg text-gray-600">Product: {productId.title}</p>
         </div>
         <div className="mt-8 flex gap-4">
-          <button className="flex-1 bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition-colors">
-          Add to Cart
+          <button 
+            onClick = {() => dispatch(addToCart(productId))}
+            className="flex-1 bg-black text-white py-3 rounded-lg hover:bg-gray-800 cursor-pointer transition-colors">
+            Add to Cart
           </button>
-
-          <button className="flex-1 bg-gray-200 text-gray-800 py-3 rounded-lg hover:bg-gray-300 transition-colors">
-          Back
+          <button className="flex-1 bg-gray-200 text-gray-800 py-3 rounded-lg hover:bg-gray-300 cursor-pointer transition-colors">
+            <Link to="/">Back</Link>
           </button>
         </div>
       </div>

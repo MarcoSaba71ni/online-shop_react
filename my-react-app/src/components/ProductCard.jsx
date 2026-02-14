@@ -1,8 +1,13 @@
 import { Link } from "@tanstack/react-router";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../features/cart/cartSlice";
 
-function ProductCard({product , onAdd , onRemove}) {
+function ProductCard({product}) {
+
+    const dispatch = useDispatch();
+
     return (
-        <div  className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6 flex flex-col justify-between">
+        <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6 flex flex-col justify-between">
             <Link
             to= "/products/$productId"
             params={{productId: product.id}}
@@ -11,14 +16,10 @@ function ProductCard({product , onAdd , onRemove}) {
                 <p className="text-lg font-bold text-gray-600">Price: ${product.price}</p>
             </Link>
             <div className="mt-6 flex gap-3">
-                <button  className="flex-1 bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition-colors"
-                onClick = {() => onAdd(product.title, product.price)}>
+                <button  className="flex-1 bg-black text-white py-2 cursor-pointer rounded-lg hover:bg-gray-800 transition-colors"
+                onClick = {() => dispatch(addToCart(product))}>
                     Add to Cart
-                </button>
-                <button className="flex-1 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition-colors"
-                 onClick = {() => onRemove(product.id) }>
-                    Remove
-                </button>                
+                </button>            
             </div>
 
         </div>
