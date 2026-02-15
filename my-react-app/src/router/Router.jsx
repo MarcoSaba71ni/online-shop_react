@@ -26,7 +26,7 @@ export const productRoute = new Route({
     getParentRoute: () => rootRoute,
     path: '/products/$productId',
     component: ProductPage,
-})
+});
 
 export const cartRoute = new Route ({
     getParentRoute: () => rootRoute,

@@ -22,14 +22,14 @@ const initialState = {
         },
         removeFromCart: (state, action) => {
             const existingItem = state.items.find(
-                item => item.id === action.payload
+                item => item.id === action.payload // find the item with the given id
             );
 
-            if (existingItem.quantity > 1) {
-                existingItem.quantity -= 1;
+            if (existingItem.quantity > 1) { // if the quantity is greater than 1, decrease it by 1
+                existingItem.quantity -= 1; // if the quantity is 1, remove the item from the cart
             } else {
-                state.items = state.items.filter(
-                item => item.id !== action.payload
+                state.items = state.items.filter( // filter out the item with the given id
+                item => item.id !== action.payload // keep all items except the one with the given id
                 );
             }
         },

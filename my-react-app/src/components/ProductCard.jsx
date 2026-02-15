@@ -16,7 +16,8 @@ function ProductCard({product}) {
                 <p className="text-lg font-bold text-gray-600">Price: ${product.price}</p>
             </Link>
             <div className="mt-6 flex gap-3">
-                <button  className="flex-1 bg-black text-white py-2 cursor-pointer rounded-lg hover:bg-gray-800 transition-colors"
+                <button  
+                className="flex-1 bg-black text-white py-2 cursor-pointer rounded-lg hover:bg-gray-800 transition-colors"
                 onClick = {() => dispatch(addToCart(product))}>
                     Add to Cart
                 </button>            

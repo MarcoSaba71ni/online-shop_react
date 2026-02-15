@@ -5,15 +5,19 @@ import ReactDOM from 'react-dom/client';
 import { Router , RouterProvider } from '@tanstack/react-router';
 import { router } from './router/Router.jsx';
 import './index.css'
-import { store } from './app/store.js';
+import { store , persistor } from './app/store.js';
 import { Provider } from 'react-redux';
+import { PersistGate } from "redux-persist/integration/react";
+
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
-      <RouterProvider 
-      router={router} />
+      <PersistGate loading={null} persistor={persistor}>
+        <RouterProvider 
+        router={router} />
+      </PersistGate>
     </Provider>
   </StrictMode>
 )
