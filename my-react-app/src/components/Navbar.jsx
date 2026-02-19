@@ -17,7 +17,7 @@ export function Navbar() {
         <nav className="flex flex-row gap-2">
           <Link to="/">Home</Link>
           <Link to="/about">About</Link>
-          <Link to="/cart">Contact</Link>
+          <Link to="/contact">Contact</Link>
         </nav>
         <div>
           <Link to="/cart">

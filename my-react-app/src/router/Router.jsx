@@ -4,7 +4,7 @@ import { HomePage } from "../pages/HomePage";
 import { AboutPage } from "../pages/AboutPage";
 import { ProductPage } from '../pages/ProductPage';
 import { CartPage } from '../pages/CartPage';
-
+import { ContactPage } from '../pages/ContactPage';
 
 const rootRoute = new RootRoute({
     component: App
@@ -34,11 +34,18 @@ export const cartRoute = new Route ({
     component: CartPage
 })
 
+export const contactRoute = new Route ({
+    getParentRoute: () => rootRoute,
+    path: '/contact',
+    component: ContactPage
+})
+
 const routeTree = rootRoute.addChildren([
     indexRoute,
     aboutRoute,
     productRoute,
-    cartRoute
+    cartRoute,
+    contactRoute
 ]);
 
 
