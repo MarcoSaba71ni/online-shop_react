@@ -1,7 +1,29 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { contactSchema } from "../app/schemas/contactSchema";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export function ContactPage() {
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors , isSubmitting },
+    reset,
+  } = useForm ({
+    resolver: zodResolver(contactSchema),
+  });
+
+    const onSubmit = (data) => {
+    console.log("Submitted:", data);
+    reset();
+  };
+
+  const onError = (errors) => {
+    console.log("Validation errors:", errors);
+  };
+
   return (
     <motion.div
       className="min-h-screen bg-gray-100 flex justify-center items-center p-6"
@@ -10,6 +32,7 @@ export function ContactPage() {
       transition={{ duration: 0.4 }}
     >
       <motion.form
+        onSubmit = {handleSubmit(onSubmit, onError)}
         className="bg-white shadow-2xl rounded-2xl p-10 max-w-2xl w-full space-y-6"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -35,12 +58,18 @@ export function ContactPage() {
             Full Name
           </label>
           <input
+            {...register("name")}
             type="text"
             id="name"
             name="name"
             className="border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black transition"
-            required
+            aria-invalid = {errors.name ? "true" : "false"}
           />
+          {errors.name && (
+            <span className="text-red-500 text-sm mt-1" role="alert">
+              {errors.name.message}
+            </span>
+          )}
         </motion.div>
 
         {/* Subject */}
@@ -54,12 +83,17 @@ export function ContactPage() {
             Subject
           </label>
           <input
+            {...register("subject")}
             type="text"
             id="subject"
             name="subject"
             className="border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black transition"
-            required
           />
+          {errors.subject && (
+            <span className="text-red-500 text-sm mt-1" role="alert">
+              {errors.subject.message}
+            </span>
+          )}
         </motion.div>
 
         {/* Email */}
@@ -73,12 +107,11 @@ export function ContactPage() {
             Email
           </label>
           <input
+            {...register("email")}
             type="email"
             id="email"
             name="email"
-            className="border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black transition"
-            required
-          />
+            className="border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black transition"          />
         </motion.div>
 
         {/* Message */}
@@ -92,11 +125,11 @@ export function ContactPage() {
             Message
           </label>
           <textarea
+            {...register("message")}
             id="message"
             name="message"
             rows="4"
             className="border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black transition resize-none"
-            required
           ></textarea>
         </motion.div>
 
@@ -106,8 +139,9 @@ export function ContactPage() {
           className="w-full bg-black text-white py-3 rounded-xl cursor-pointer font-medium hover:bg-gray-800 transition-all"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
+          disabled={isSubmitting}
         >
-          Send Message
+          {isSubmitting ? "Sending..." : "Send Message"}
         </motion.button>
       </motion.form>
     </motion.div>

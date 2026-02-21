@@ -78,7 +78,8 @@ export function HomePage() {
   }
 
   return (
-    <div className="flex flex-col gap-2 ml-24 mt-6">
+    <div className="flex flex-col gap-6 ml-24 mt-6">
+      <input className="border border-gray-300 rounded-xl mx-24 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black transition" placeholder="Search products..."></input>
       <h2 className="text-2xl font-bold mb-4">Products</h2>
 
       <ProductList
