@@ -2,7 +2,7 @@ import ProductCard from './productCard.jsx';
 
 function ProductList({ products, onAdd, onRemove }) {
   return (
-    <div className="product-list">
+    <div className="product-list gap-6">
       {products.map((product) => (
         <ProductCard
           key={product.id}

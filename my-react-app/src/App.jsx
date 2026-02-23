@@ -2,7 +2,6 @@ import ProductList from "./components/productList";
 import { Outlet , Link } from "@tanstack/react-router";
 import { Navbar } from "./components/Navbar";
 
-
 function App() {
   return (
     <>
@@ -13,8 +12,6 @@ function App() {
     </>
     
   );
-
-
 }
 
 export default App;
