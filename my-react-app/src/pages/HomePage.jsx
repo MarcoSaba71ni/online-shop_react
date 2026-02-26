@@ -126,7 +126,19 @@ export function HomePage() {
         onRemove={removeProduct}
       />
 
-      {isLoading && <p>Loading...</p>}
+      {isLoading && isLoading &&
+
+        <div className="min-h-screen flex justify-center items-center p-6">
+          <div className="animate-pulse max-w-5xl w-full grid md:grid-cols-2 gap-8">
+            <div className="bg-gray-200 h-96 rounded-2xl" />
+            <div className="space-y-4">
+              <div className="bg-gray-200 h-8 w-3/4 rounded" />
+              <div className="bg-gray-200 h-6 w-full rounded" />
+              <div className="bg-gray-200 h-6 w-2/3 rounded" />
+              <div className="bg-gray-200 h-10 w-1/3 rounded" />
+            </div>
+          </div>
+        </div>}
 
       {!isLoading && hasMore && !error && ( // if is loading, has more and no error we display btn
         <button onClick={() => setCurrentPage((prev) => prev + 1)}> 
@@ -137,7 +149,18 @@ export function HomePage() {
       {!hasMore && <p>No more products to load.</p>} 
 
       {error && // if error is present
-      <p>{error.status}: {error.message}</p>}
+      <div className="min-h-screen flex flex-col justify-center items-center gap-4">
+            <p className="text-red-600 font-semibold">
+              Something went wrong 😢
+            </p>
+            <p className="text-gray-500">{error.message}</p>
+            <button
+              onClick={() => refetch()}
+              className="bg-black text-white px-6 py-2 rounded-lg"
+            >
+              Try Again
+            </button>
+          </div>}
 
       {filteredProducts < 1 &&
       <p 

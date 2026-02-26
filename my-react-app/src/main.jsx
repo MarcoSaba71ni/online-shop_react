@@ -10,7 +10,20 @@ import { Provider } from 'react-redux';
 import { PersistGate } from "redux-persist/integration/react";
 import { QueryClient , QueryClientProvider } from "@tanstack/react-query";
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 2,
+      staleTime: 1000 * 6 * 5,
+      gcTime: 1000 * 6 * 3,
+      refetchOnWindowFocus: false,
+    },
+    mutation: {
+      retry: 1,
+    }
+  },
+
+});
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -23,4 +36,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       </Provider>
     </QueryClientProvider>
   </StrictMode>
-)
+);
