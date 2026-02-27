@@ -1,6 +1,9 @@
-import ProductCard from './productCard.jsx';
+import ProductCard from "./ProductCard";
+import {  ProductListProp, Product } from "../features/interfaces/interfaces";
 
-function ProductList({ products, onAdd, onRemove }) {
+
+// Option 2: Importing interfaces
+function ProductList({ products, onAdd, onRemove }: ProductListProp) {
   return (
     <div className="product-list gap-6">
       {products.map((product) => (

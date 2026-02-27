@@ -1,7 +1,7 @@
-import React from "react";
 import { motion } from "framer-motion";
-import { contactSchema } from "../app/schemas/contactSchema";
-import { useForm } from "react-hook-form";
+import contactSchema from "../app/schemas/contactSchema";
+import { ContactFormData } from "../app/schemas/contactSchema";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export function ContactPage() {
@@ -9,18 +9,20 @@ export function ContactPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors , isSubmitting },
+    formState: { errors , isSubmitting , isSubmitSuccessful },
     reset,
-  } = useForm ({
+  } = useForm<ContactFormData> ({
     resolver: zodResolver(contactSchema),
   });
 
-    const onSubmit = (data) => {
+    const onSubmit: SubmitHandler<ContactFormData> = async (data) => {
+    await new Promise ((resolve) => setInterval(resolve, 2000));
     console.log("Submitted:", data);
+    alert("Your contact form was submitted");
     reset();
   };
-
-  const onError = (errors) => {
+ 
+  const onError: SubmitErrorHandler<ContactFormData> = (errors) => {
     console.log("Validation errors:", errors);
   };
 
@@ -112,6 +114,11 @@ export function ContactPage() {
             id="email"
             name="email"
             className="border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black transition"          />
+          {errors.email && (
+            <span className="text-red-500 text-sm mt-1" role="alert">
+              {errors.email.message}
+            </span>
+          )}
         </motion.div>
 
         {/* Message */}
@@ -128,9 +135,13 @@ export function ContactPage() {
             {...register("message")}
             id="message"
             name="message"
-            rows="4"
             className="border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black transition resize-none"
           ></textarea>
+          {errors.message && (
+            <span>
+              {errors.message.message}
+            </span>
+          )}
         </motion.div>
 
         {/* Button */}
@@ -142,6 +153,7 @@ export function ContactPage() {
           disabled={isSubmitting}
         >
           {isSubmitting ? "Sending..." : "Send Message"}
+          
         </motion.button>
       </motion.form>
     </motion.div>

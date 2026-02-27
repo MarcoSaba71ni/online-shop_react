@@ -20,3 +20,5 @@ export const contactSchema = z.object( {
 });
 
 export default contactSchema;
+
+export type ContactFormData = z.infer<typeof contactSchema>;

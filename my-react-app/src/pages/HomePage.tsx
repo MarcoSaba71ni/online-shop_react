@@ -1,17 +1,18 @@
-import React, { useState, useEffect, useRef } from "react";
-import ProductList from "../components/productList";
-import { useQuery } from '@tanstack/react-query';
+import { useState, useEffect, useRef } from "react";
+import ProductList from "../components/ProductList";
+import { ProductListProp , Product , ApiError } from "../features/interfaces/interfaces";
+
 
 export const API_URL_PRODUCTS = "https://v2.api.noroff.dev/online-shop";
 
 export function HomePage() {
 
   // From here 
-  const [items, setItems] = useState([]); 
-  const [currentPage, setCurrentPage] = useState(1); 
+  const [items, setItems] = useState<Product[]>([]); 
+  const [currentPage, setCurrentPage] = useState<number>(1); 
   const [isLoading, setIsLoading] = useState(false); 
   const [hasMore, setHasMore] = useState(true); 
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<ApiError | null >(null);
   // To here will be deleted
   const [ searchTerm , setSearchTerm ] = useState('');
 
@@ -19,7 +20,7 @@ export function HomePage() {
 
   const isFetchingRef = useRef(false);
 
-  async function loadProducts(page) {
+  async function loadProducts(page:number): Promise<void> { // page has no type
     setError(null); // error state to be null 
     if (isFetchingRef.current) return;
 
@@ -55,11 +56,11 @@ export function HomePage() {
         const result = await response.json();
         console.log("Fetched products:", result.data);
 
-        setItems((prev) => { 
+        setItems((prev) => {  // prev has no type
 
-        const existingIds = new Set(prev.map((p) => p.id));
+        const existingIds = new Set(prev.map((p) => p.id));  // id has no type
         const newItems = result.data.filter(
-        (p) => !existingIds.has(p.id)
+        (p:Product) => !existingIds.has(p.id)
       );
       return [...prev, ...newItems]; 
     });
@@ -68,14 +69,13 @@ export function HomePage() {
       setHasMore(!result.meta.isLastPage);
     }
 
-    }  catch (error) {
+    }  catch (error:unknown) {
     console.error("Error fetching products:", error);
-
-    if (error.status) {
-      setError(error);
-    } else {
+    if (typeof error === "object" && error !== null && "status" in error )
+      setError( error as ApiError)
+     else {
       setError({
-        status: null,
+        status: null,  // status has no type
         message: "Network error. Please check your internet connection."
       });
     }
@@ -90,23 +90,17 @@ export function HomePage() {
     loadProducts(currentPage);
   }, [currentPage]);
 
-  function addProduct(title, price) {
-    const newProduct = {
-      id: Date.now(),
-      title,
-      price,
-    };
-
-    setItems((prev) => [newProduct, ...prev]);
+  function addProduct(product: Product) {  // title and price has no type
+    setItems((prev) => [product, ...prev]);  // prev has no type
   }
 
-  function removeProduct(id) { 
+  function removeProduct(id:string) {  // id has no type
     setItems((prev) => prev.filter((product) => product.id !== id)); 
   }
 
       // WHERE TO PLACE THE FILTERED CONSTANT?
-      const filteredProducts = items.filter((product) =>
-        product.title.toLowerCase().includes(searchTerm.toLowerCase())
+      const filteredProducts: Product[] = items.filter((product) =>
+        product.title.toLowerCase().includes(searchTerm.toLowerCase())  // title has no type
     );
       
   return (
@@ -122,7 +116,7 @@ export function HomePage() {
 
       <ProductList
         products={filteredProducts}
-        onAdd={addProduct}
+        onAdd={addProduct}  // onAdd has no type
         onRemove={removeProduct}
       />
 
@@ -153,16 +147,10 @@ export function HomePage() {
             <p className="text-red-600 font-semibold">
               Something went wrong 😢
             </p>
-            <p className="text-gray-500">{error.message}</p>
-            <button
-              onClick={() => refetch()}
-              className="bg-black text-white px-6 py-2 rounded-lg"
-            >
-              Try Again
-            </button>
+            <p className="text-gray-500">{error.message}</p>  // message has no type
           </div>}
-
-      {filteredProducts < 1 &&
+          
+      {filteredProducts.length < 1 &&  // filteredProducts has no type
       <p 
       className="mx-auto flex justify-center font-bold text-3xl"
       >NO MATCHING PRODUCTS</p>}

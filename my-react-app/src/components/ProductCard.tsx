@@ -1,8 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../features/cart/cartSlice";
+import { ProductCardProp } from "../features/interfaces/interfaces";
 
-function ProductCard({product}) {
+function ProductCard({product}: ProductCardProp) {
 
     const dispatch = useDispatch();
 
