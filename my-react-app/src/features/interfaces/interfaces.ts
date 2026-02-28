@@ -10,6 +10,10 @@ export interface Product {
     reviews: ProductReview
 }
 
+export interface CartItem extends Product {
+    quantity: number
+}
+
 export interface ProductImage {
     url: string,
     alt: string
@@ -33,9 +37,9 @@ export interface ProductListProp {
     onAdd: (product: Product) => void,
     onRemove: (id:string) => void
 }
-
 // Interface for API Error
 export interface ApiError {
     status: number | null,
     message: string
 }
+

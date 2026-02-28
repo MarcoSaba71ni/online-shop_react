@@ -1,4 +1,3 @@
-import React from "react";
 import { productRoute } from "../router/Router";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../features/cart/cartSlice";
@@ -6,7 +5,7 @@ import { Link } from "@tanstack/react-router";
 import { API_URL_PRODUCTS } from "./HomePage";
 import { useQuery } from "@tanstack/react-query";
 
-const fetchProductById = async (id) => {
+const fetchProductById = async (id:string) => {
   const response = await fetch(`${API_URL_PRODUCTS}/${id}`);
 
   if (!response.ok) {

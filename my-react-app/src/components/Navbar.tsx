@@ -1,11 +1,12 @@
-import React from "react";
 import { Link } from "@tanstack/react-router";
 import { useSelector } from "react-redux";
+import { CartItem, Product } from "../features/interfaces/interfaces";
+import { RootState } from "../app/store";
 
 
 export function Navbar() {
-    const cartItems = useSelector((state) => state.cart.items);
-    const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0);
+    const cartItems:CartItem[] = useSelector((state: RootState) => state.cart.items);
+    const totalQuantity: number = cartItems.reduce((total, item) => total + item.quantity, 0);
 
     return (
     <header className="bg-black text-white p-4 flex flex-row justify-evenly items-center">

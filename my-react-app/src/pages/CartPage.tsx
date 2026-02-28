@@ -1,10 +1,10 @@
-import React from "react";
 import { useSelector , useDispatch } from "react-redux";
 import { addToCart , removeFromCart , clearCart } from "../features/cart/cartSlice";
+import { RootState , AppDispatch} from "../app/store";
 
 export function CartPage() {
-    const cartItems = useSelector((state)=> state.cart.items);
-    const dispatch = useDispatch();
+    const cartItems = useSelector((state: RootState)=> state.cart.items);
+    const dispatch = useDispatch<AppDispatch>();
 
     if (cartItems.length === 0) {
         return <h2 className="text-center text-2xl font-bold text-gray-800">No Items in Cart</h2>
