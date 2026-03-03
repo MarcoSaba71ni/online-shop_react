@@ -6,6 +6,7 @@ import { ProductPage } from '../pages/ProductPage';
 import CartPage from '../pages/CartPage';
 import { ContactPage } from '../pages/ContactPage';
 import { CheckoutPage } from '../pages/CheckoutPage';
+import { SuccessfulPage } from '../pages/SuccessfulPage';
 
 const rootRoute = new RootRoute({
     component: App
@@ -47,13 +48,21 @@ export const checkoutRoute = new Route ({
     component: CheckoutPage
 })
 
+export const successfulRoute = new Route ({
+    getParentRoute: () => rootRoute,
+    path: '/successful',
+    component: SuccessfulPage
+
+})
+
 const routeTree = rootRoute.addChildren([
     indexRoute,
     aboutRoute,
     productRoute,
     cartRoute,
     contactRoute,
-    checkoutRoute
+    checkoutRoute,
+    successfulRoute
 ]);
 
 

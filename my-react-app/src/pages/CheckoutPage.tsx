@@ -148,13 +148,16 @@ export function CheckoutPage() {
                 />
               </div>
             </div>
+            <Link
+            to='/successful'>
+              <button
+                type="submit"
+                className="hidden sm:block cursor-pointer w-full bg-black text-white py-3 rounded-xl hover:bg-gray-800 transition font-semibold"
+              >
+                Complete Order
+              </button>            
+            </Link>
 
-            <button
-              type="submit"
-              className="hidden sm:block w-full bg-black text-white py-3 rounded-xl hover:bg-gray-800 transition font-semibold"
-            >
-              Complete Order
-            </button>
           </form>
         </div>
 
@@ -205,13 +208,14 @@ export function CheckoutPage() {
                 <span>${total.toFixed(2)}</span>
               </div>
             </div>
-            <button
-              type="submit"
-              className="block sm:hidden w-full bg-black text-white py-3 rounded-xl hover:bg-gray-800 transition font-semibold"
-            >
-              Complete Order
-            </button>
-
+            <Link>
+              <button
+                type="submit"
+                className="block sm:hidden w-full cursor-pointer bg-black text-white py-3 rounded-xl hover:bg-gray-800 transition font-semibold"
+              >
+                Complete Order
+              </button>            
+            </Link>
             <button
               onClick={() => dispatch(clearCart())}
               className="w-full border border-red-500 text-red-500 py-3 rounded-xl hover:bg-red-50 transition"
