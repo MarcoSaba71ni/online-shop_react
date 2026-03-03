@@ -21,6 +21,9 @@ const initialState: CartState = {
         if (existingItem) {
             existingItem.quantity += 1;
         } else {
+
+            
+
             state.items.push({ ...action.payload, quantity: 1 });
         }
         },

@@ -13,6 +13,7 @@ export function HomePage() {
   const [isLoading, setIsLoading] = useState(false); 
   const [hasMore, setHasMore] = useState(true); 
   const [error, setError] = useState<ApiError | null >(null);
+  const [added , setAdde ] = useState(false);
   // To here will be deleted
   const [ searchTerm , setSearchTerm ] = useState('');
 

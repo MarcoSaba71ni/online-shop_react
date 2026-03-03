@@ -1,11 +1,17 @@
 import { Link } from "@tanstack/react-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../features/cart/cartSlice";
 import { ProductCardProp } from "../features/interfaces/interfaces";
+import { useState } from "react";
+import { RootState } from "../app/store";
 
 function ProductCard({product}: ProductCardProp) {
 
     const dispatch = useDispatch();
+    const [ added , setAdded ] = useState(false);
+
+    const cartItems = useSelector((state: RootState) => state.cart.items)
+    const isInCart = cartItems.some((item) => item.id === product.id)
 
     return (
         <div className="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col">
@@ -52,10 +58,22 @@ function ProductCard({product}: ProductCardProp) {
         {/* BUTTON */}
         <div className="p-5 pt-0">
             <button
-            onClick={() => dispatch(addToCart(product))}
-            className="w-full bg-black text-white py-2.5 rounded-xl hover:bg-gray-800 active:scale-95 transition-all duration-200"
+            onClick={() =>  {
+                dispatch(addToCart(product)),
+                setAdded(true);
+
+                setTimeout(() => {
+                    setAdded(false);
+                }, 1500);
+            }}
+            className="w-full cursor-pointer bg-black text-white py-2.5 rounded-xl hover:bg-gray-800 active:scale-95 transition-all duration-200"
             >
-            Add to Cart
+                
+                {added
+                ? "Added ✓" 
+                : isInCart
+                ? "Added ✓"
+                : "Add to Cart"}
             </button>
         </div>
 

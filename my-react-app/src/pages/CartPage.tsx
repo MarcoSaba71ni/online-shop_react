@@ -3,15 +3,22 @@ import { addToCart , removeFromCart , clearCart } from "../features/cart/cartSli
 import { RootState , AppDispatch} from "../app/store";
 import { Link } from "@tanstack/react-router";
 
-export function CartPage() {
-    const cartItems = useSelector((state: RootState)=> state.cart.items);
-    const dispatch = useDispatch<AppDispatch>();
 
+
+
+export function CartPage() {
+
+    const cartItems = useSelector((state: RootState)=> state.cart.items);
+
+
+    const dispatch = useDispatch<AppDispatch>();
     const subTotal = cartItems.reduce(
         (acc, item) => acc + item.price * item.quantity, 0
     );
+        
     const shipmentFee = 15;
     const total = subTotal + shipmentFee;
+
 
     if (cartItems.length === 0) {
         return (
