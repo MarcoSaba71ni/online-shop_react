@@ -20,9 +20,13 @@ export function SuccessfulPage () {
             Your tracking number is: {trackingNumber}
         </motion.p>
 
+        <motion.p className="text-lg text-gray font-semibold">
+            Your tracking information was sent to your email address
+        </motion.p>
+
         <Link to="/">
-            <button className="px-6 py-2 bg-black cursor-pointern text-white rounded-lg hover:opacity-80 transition">
-            Back to Home
+            <button className="px-6 py-2 bg-black cursor-pointer text-white rounded-lg hover:opacity-80 transition">
+            Back to Home Page
             </button>
         </Link>
 

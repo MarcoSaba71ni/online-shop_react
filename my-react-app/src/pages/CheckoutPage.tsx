@@ -31,7 +31,8 @@ export function CheckoutPage() {
     formState: { errors , isSubmitting },
     reset
   } = useForm<checkoutFormData> ({
-    resolver: zodResolver(checkoutSchema)
+    resolver: zodResolver(checkoutSchema),
+    mode: "onChange"
   })
 
     const onSubmit: SubmitHandler<checkoutFormData> = async (data) => {
@@ -41,11 +42,11 @@ export function CheckoutPage() {
     alert("Your contact form was submitted");
     reset();
     navigate({to:"/successful"})
-  };
+  }
 
     const onError: SubmitErrorHandler<checkoutFormData> = (errors) => {
-      console.log("Validation errors:", errors);
-  };
+      console.log("Validation errors:", errors)
+  }
 
   if (cartItems.length === 0) {
     return (
@@ -63,7 +64,7 @@ export function CheckoutPage() {
           Home Page
         </Link>
       </div>
-    );
+    )
   }
 
   return (
@@ -106,13 +107,12 @@ export function CheckoutPage() {
                   {...register("lastName")}
                   type="text"
                   id="last-name"
-                  name="last-name"
                   className="p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black transition"
                   placeholder="Karlsson"
                 />
-                {errors.email && (
+                {errors.lastName && (
                   <span className="text-red-500 text-sm mt-1" role="alert">
-                    {errors.email.message}
+                    {errors.lastName.message}
                   </span>
                 )}
               </div>
@@ -132,7 +132,7 @@ export function CheckoutPage() {
                 <span className="text-red-500 text-sm mt-1">
                   {errors.email.message}
                 </span>
-              )};
+              )}
             </div>
 
             <div className="flex flex-col">
@@ -149,7 +149,7 @@ export function CheckoutPage() {
                 <span className="text-red-500 text-sm mt-1">
                   {errors.address.message}
                 </span>
-              )};             
+              )}             
             </div>
 
             <div className="grid grid-cols-3 gap-4">
@@ -167,7 +167,7 @@ export function CheckoutPage() {
                   <span className="text-red-500 text-sm mt-1">
                     {errors.city.message}
                   </span>
-                )};   
+                )}   
               </div>
 
               <div className="flex flex-col">
@@ -184,7 +184,7 @@ export function CheckoutPage() {
                 <span className="text-red-500 text-sm mt-1">
                   {errors.county.message}
                 </span>
-              )};   
+              )}   
               </div>
 
               <div className="flex flex-col">
@@ -201,7 +201,7 @@ export function CheckoutPage() {
                   <span className="text-red-500 text-sm mt-1">
                     {errors.zip.message}
                   </span>
-                )};   
+                )}   
               </div>
             </div>
           {/* PAYMENT DETAILS */}            
@@ -210,6 +210,9 @@ export function CheckoutPage() {
             <div className="flex flex-col">
               <label className="text-sm font-medium">Cardholder Name</label>
               <input
+                {...register("cardName")}
+                id="card-name"
+                type="text"                 
                 className="p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black transition"
                 placeholder="John Doe"
               />
@@ -217,12 +220,15 @@ export function CheckoutPage() {
                   <span className="text-red-500 text-sm mt-1">
                     {errors.cardName.message}
                   </span>
-                )};   
+                )}  
             </div>
 
             <div className="flex flex-col">
               <label className="text-sm font-medium">Card Number</label>
               <input
+                {...register("cardNumber")}
+                id="card-number"
+                type="string"     
                 className="p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black transition"
                 placeholder="1234 5678 9012 3456"
               />
@@ -230,26 +236,32 @@ export function CheckoutPage() {
                 <span className="text-red-500 text-sm mt-1">
                   {errors.cardNumber.message}
                 </span>
-              )};              
+              )}              
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col">
                 <label className="text-sm font-medium">Expiration Date</label>
                 <input
+                  {...register("expirationDate")}
+                  type="text"
+                  id="expiration-date"
                   className="p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black transition"
                   placeholder="MM/YY"
                 />
-                {errors.expirationData && (
+                {errors.expirationDate && (
                   <span className="text-red-500 text-sm mt-1">
-                    {errors.expirationData.message}
+                    {errors.expirationDate.message}
                   </span>
-                )};   
+                )}  
               </div>
 
               <div className="flex flex-col">
                 <label className="text-sm font-medium">CVV</label>
                 <input
+                  {...register("cvv")}
+                  type="text"
+                  id="cvv"
                   className="p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black transition"
                   placeholder="123"
                 />
@@ -257,10 +269,11 @@ export function CheckoutPage() {
                 <span className="text-red-500 text-sm mt-1">
                   {errors.cvv.message}
                 </span>
-              )};                              
+              )}                             
               </div>
             </div>
             <button
+              className="w-full bg-black text-white py-3 rounded-xl cursor-pointer font-medium hover:bg-gray-800 transition-all"
               type="submit"
               disabled={isSubmitting}
             >
@@ -334,5 +347,5 @@ export function CheckoutPage() {
         </div>
       </div>
     </div>
-  );
+  )
 }
