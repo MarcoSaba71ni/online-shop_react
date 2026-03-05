@@ -38,18 +38,14 @@ function ProductCard({product}: ProductCardProp) {
             <h3 className="text-lg font-semibold text-gray-800 line-clamp-2 mb-2 hover:text-black transition-colors">
                 {product.title}
             </h3>
-
             {/* PRICE + RATING */}
             <div className="mt-auto space-y-2">
-
                 <p className="text-xl font-bold text-black">
                 ${product.price}
                 </p>
-
                 <p className="text-yellow-500 text-sm font-medium">
                 ⭐ {product.rating}
                 </p>
-
             </div>
             </div>
 

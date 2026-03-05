@@ -2,8 +2,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { Link } from "@tanstack/react-router";
 import { clearCart } from "../features/cart/cartSlice";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import checkoutSchema, { checkoutFormData } from "../app/schemas/checkoutSchema";
+import { SubmitHandler , SubmitErrorHandler } from "react-hook-form";
+import { useNavigate } from "@tanstack/react-router";
+
 
 export function CheckoutPage() {
+
   const cartItems = useSelector((state: RootState) => state.cart.items);
 
   const dispatch = useDispatch();
@@ -15,6 +22,30 @@ export function CheckoutPage() {
 
   const shipmentFee = 15;
   const total = subTotal + shipmentFee;
+
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors , isSubmitting },
+    reset
+  } = useForm<checkoutFormData> ({
+    resolver: zodResolver(checkoutSchema)
+  })
+
+    const onSubmit: SubmitHandler<checkoutFormData> = async (data) => {
+    await new Promise ((resolve) => setTimeout(resolve, 2000));
+    console.log("Submitted:", data);
+    dispatch(clearCart());
+    alert("Your contact form was submitted");
+    reset();
+    navigate({to:"/successful"})
+  };
+
+    const onError: SubmitErrorHandler<checkoutFormData> = (errors) => {
+      console.log("Validation errors:", errors);
+  };
 
   if (cartItems.length === 0) {
     return (
@@ -46,73 +77,134 @@ export function CheckoutPage() {
         {/* LEFT SIDE */}
         <div className="flex-1 space-y-8">
           {/* SHIPPING ADDRESS */}
-          <form className="bg-white shadow-lg rounded-2xl p-8 space-y-6">
+          <form
+            onSubmit = {handleSubmit(onSubmit, onError)}
+            className="bg-white shadow-lg rounded-2xl p-8 space-y-6">
             <h4 className="text-2xl font-semibold">Shipping Address</h4>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col">
                 <label className="text-sm font-medium">First Name</label>
                 <input
+                  {...register("name")}
+                  type="text"
+                  id="name"
+                  name="name"
                   className="p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black transition"
-                  placeholder="John"
+                  placeholder="Oskar"
                 />
+                {errors.name && (
+                <span className="text-red-500 text-sm mt-1" role="alert">
+                  {errors.name.message}
+                </span>
+              )}
               </div>
 
               <div className="flex flex-col">
                 <label className="text-sm font-medium">Last Name</label>
                 <input
+                  {...register("lastName")}
+                  type="text"
+                  id="last-name"
+                  name="last-name"
                   className="p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black transition"
-                  placeholder="Doe"
+                  placeholder="Karlsson"
                 />
+                {errors.email && (
+                  <span className="text-red-500 text-sm mt-1" role="alert">
+                    {errors.email.message}
+                  </span>
+                )}
               </div>
             </div>
 
             <div className="flex flex-col">
               <label className="text-sm font-medium">Email</label>
               <input
+                {...register("email")}
+                id="email"
+                name="email"
                 type="email"
                 className="p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black transition"
                 placeholder="john@email.com"
               />
+              {errors.email && (
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
+                </span>
+              )};
             </div>
 
             <div className="flex flex-col">
               <label className="text-sm font-medium">Street Address</label>
               <input
+                {...register("address")}
+                id="address"
+                name="address"
+                type="text"
                 className="p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black transition"
-                placeholder="123 Main St"
+                placeholder="Storgatan 10, 123 45 Stockholm"
               />
+              {errors.address && (
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.address.message}
+                </span>
+              )};             
             </div>
 
             <div className="grid grid-cols-3 gap-4">
               <div className="flex flex-col">
                 <label className="text-sm font-medium">City</label>
                 <input
+                  {...register("city")}
+                  id="city"
+                  name="city"
+                  type="text"
                   className="p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black transition"
-                  placeholder="New York"
+                  placeholder="Stockholm, Rio de Janeiro"
                 />
+                {errors.city && (
+                  <span className="text-red-500 text-sm mt-1">
+                    {errors.city.message}
+                  </span>
+                )};   
               </div>
 
               <div className="flex flex-col">
                 <label className="text-sm font-medium">State</label>
                 <input
+                  {...register("county")}
+                  id="county"
+                  name="county"
+                  type="text"
                   className="p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black transition"
-                  placeholder="NY"
+                  placeholder=" Stockholm, Västra Götaland, Skåne "
                 />
+              {errors.county && (
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.county.message}
+                </span>
+              )};   
               </div>
 
               <div className="flex flex-col">
                 <label className="text-sm font-medium">ZIP Code</label>
                 <input
+                  {...register("zip")}
+                  id="zip"
+                  name="zip"
+                  type="text"               
                   className="p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black transition"
-                  placeholder="10001"
+                  placeholder="12345"
                 />
+                {errors.zip && (
+                  <span className="text-red-500 text-sm mt-1">
+                    {errors.zip.message}
+                  </span>
+                )};   
               </div>
             </div>
-          </form>
-
-          {/* PAYMENT DETAILS */}
-          <form className="bg-white shadow-lg rounded-2xl p-8 space-y-6">
+          {/* PAYMENT DETAILS */}            
             <h4 className="text-2xl font-semibold">Payment Details</h4>
 
             <div className="flex flex-col">
@@ -121,6 +213,11 @@ export function CheckoutPage() {
                 className="p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black transition"
                 placeholder="John Doe"
               />
+                {errors.cardName && (
+                  <span className="text-red-500 text-sm mt-1">
+                    {errors.cardName.message}
+                  </span>
+                )};   
             </div>
 
             <div className="flex flex-col">
@@ -129,6 +226,11 @@ export function CheckoutPage() {
                 className="p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black transition"
                 placeholder="1234 5678 9012 3456"
               />
+                {errors.cardNumber && (
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.cardNumber.message}
+                </span>
+              )};              
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -138,6 +240,11 @@ export function CheckoutPage() {
                   className="p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black transition"
                   placeholder="MM/YY"
                 />
+                {errors.expirationData && (
+                  <span className="text-red-500 text-sm mt-1">
+                    {errors.expirationData.message}
+                  </span>
+                )};   
               </div>
 
               <div className="flex flex-col">
@@ -146,18 +253,19 @@ export function CheckoutPage() {
                   className="p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black transition"
                   placeholder="123"
                 />
+                {errors.cvv && (
+                <span className="text-red-500 text-sm mt-1">
+                  {errors.cvv.message}
+                </span>
+              )};                              
               </div>
             </div>
-            <Link
-            to='/successful'>
-              <button
-                type="submit"
-                className="hidden sm:block cursor-pointer w-full bg-black text-white py-3 rounded-xl hover:bg-gray-800 transition font-semibold"
-              >
-                Complete Order
-              </button>            
-            </Link>
-
+            <button
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Processing..." : "Complete Order"}
+            </button>
           </form>
         </div>
 
