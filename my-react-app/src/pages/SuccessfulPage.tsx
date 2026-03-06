@@ -21,7 +21,7 @@ export function SuccessfulPage () {
         </motion.p>
 
         <motion.p className="text-lg text-gray font-semibold">
-            Your tracking information was sent to your email address
+            Your tracking information was sent to your email address.
         </motion.p>
 
         <Link to="/">

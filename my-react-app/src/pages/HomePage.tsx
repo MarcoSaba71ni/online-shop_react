@@ -9,6 +9,7 @@ export function HomePage() {
 
   // From here 
   const [items, setItems] = useState<Product[]>([]); 
+  const [ allProducts , setAllProducts ] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1); 
   const [isLoading, setIsLoading] = useState(false); 
   const [hasMore, setHasMore] = useState(true); 
@@ -20,12 +21,14 @@ export function HomePage() {
 
   const isFetchingRef = useRef(false);
 
+
   async function loadProducts(page:number): Promise<void> { // page has no type
     setError(null); // error state to be null 
     if (isFetchingRef.current) return;
 
     isFetchingRef.current = true;
- 
+
+
     try {
         setIsLoading(true); 
         const response = await fetch(`${API_URL_PRODUCTS}?page=${page}&limit=${LIMIT}`);
@@ -90,6 +93,24 @@ export function HomePage() {
     loadProducts(currentPage);
   }, [currentPage]);
 
+useEffect(() => {
+  async function fetchAllProducts() {
+    try {
+      const response = await fetch(API_URL_PRODUCTS);
+      if(!response.ok) throw new Error("Failed to fetch all products");
+      const data = await response.json();
+      setAllProducts(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  fetchAllProducts(); // <— call it here
+}, []); // empty dependency → runs only once
+
+
+
+
   function addProduct(product: Product) {  // title and price has no type
     setItems((prev) => [product, ...prev]);  // prev has no type
   }
@@ -99,12 +120,15 @@ export function HomePage() {
   }
 
       // WHERE TO PLACE THE FILTERED CONSTANT?
-      const filteredProducts: Product[] = items.filter((product) =>
+      const paginatedProducts: Product[] = items.filter((product) =>
         product.title.toLowerCase().includes(searchTerm.toLowerCase())  // title has no type
     );
-      
+
+      const filteredProducts: Product[] = allProducts.filter((product) => 
+        product.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
   return (
-    <div className="flex flex-col gap-6 ml-24 mt-6">
+    <div className="flex flex-col gap-6 mt-6">
       <input 
         className="border border-gray-300 rounded-xl mx-24 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black transition"
         placeholder="Search products..."
@@ -112,10 +136,10 @@ export function HomePage() {
         onChange={(e) => setSearchTerm(e.target.value)}>
           
       </input>
-      <h2 className="text-2xl font-bold mb-4">Products</h2>
+      <h2 className="text-3xl font-bold text-gray-800 pl-6">Products</h2>
 
       <ProductList
-        products={filteredProducts}
+        products={searchTerm ? filteredProducts : paginatedProducts}
         onAdd={addProduct}  // onAdd has no type
         onRemove={removeProduct}
       />
@@ -135,9 +159,13 @@ export function HomePage() {
         </div>}
 
       {!isLoading && hasMore && !error && ( // if is loading, has more and no error we display btn
-        <button onClick={() => setCurrentPage((prev) => prev + 1)}> 
-          Load More
-        </button>
+        <div className="flex justify-center mb-6">
+          <button 
+          className="px-6 py-2 bg-black cursor-pointer text-white rounded-lg hover:opacity-80 transition"
+          onClick={() => setCurrentPage((prev) => prev + 1)}> 
+            Load More
+          </button>          
+        </div>
       )}
 
       {!hasMore && <p>No more products to load.</p>} 
@@ -150,10 +178,10 @@ export function HomePage() {
             <p className="text-gray-500">{error.message}</p>  // message has no type
           </div>}
           
-      {filteredProducts.length < 1 &&  // filteredProducts has no type
+      {paginatedProducts.length < 1 &&  // paginatedProducts has no type
       <p 
       className="mx-auto flex justify-center font-bold text-3xl"
       >NO MATCHING PRODUCTS</p>}
     </div>
   );
-}
+  };
