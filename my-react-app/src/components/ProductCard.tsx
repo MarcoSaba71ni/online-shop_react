@@ -14,7 +14,7 @@ function ProductCard({product}: ProductCardProp) {
     const isInCart = cartItems.some((item) => item.id === product.id)
 
     return (
-        <div className="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col">
+        <div className="group bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col hover:-translate-y-1">
 
         <Link
             to="/products/$productId"
@@ -27,8 +27,7 @@ function ProductCard({product}: ProductCardProp) {
             <img
                 src={product.image.url}
                 alt={product.title}
-                className="h-full object-contain transition-transform duration-300 hover:scale-105"
-            />
+                className="h-full object-contain transition-transform duration-300 group-hover:scale-105"            />
             </div>
 
             {/* CONTENT */}
@@ -52,25 +51,25 @@ function ProductCard({product}: ProductCardProp) {
         </Link>
 
         {/* BUTTON */}
-        <div className="p-5 pt-0">
-            <button
-            onClick={() =>  {
-                dispatch(addToCart(product)),
-                setAdded(true);
+        <div className="p-5 pt-0 overflow-hidden">
+        <button
+            onClick={() => {
+            // show temporary "Added ✓"
+            setAdded(true);
 
-                setTimeout(() => {
-                    setAdded(false);
-                }, 1500);
+            // optionally dispatch to Redux
+            dispatch(addToCart(product));
+
+            // revert back after 1.5s
+            setTimeout(() => setAdded(false), 1500);
             }}
-            className="w-full cursor-pointer bg-black text-white py-2.5 rounded-xl hover:bg-gray-800 active:scale-95 transition-all duration-200"
-            >
-                
-                {added
-                ? "Added ✓" 
-                : isInCart
-                ? "Added ✓"
-                : "Add to Cart"}
-            </button>
+            className={`w-full cursor-pointer py-2.5 rounded-xl active:scale-95 transition-all duration-300
+            ${added ? "bg-green-500 text-white" : "bg-black text-white hover:bg-gray-800"}
+            opacity-100 translate-y-0 sm:opacity-0 sm:translate-y-4 sm:group-hover:translate-y-0 sm:group-hover:opacity-100
+            `}
+        >
+            {added ? "Added ✓" : "Add to Cart"}
+        </button>
         </div>
 
         </div>
