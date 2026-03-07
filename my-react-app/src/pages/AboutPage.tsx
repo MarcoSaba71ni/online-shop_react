@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "@tanstack/react-router";
 
 export function AboutPage() {
   return (
@@ -37,13 +38,16 @@ export function AboutPage() {
         </motion.p>
 
         {/* Button */}
-        <motion.button
-          className="bg-black text-white px-6 py-3 rounded-xl hover:bg-gray-800 transition-all"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          Explore Products
-        </motion.button>
+        <Link
+          to="/">
+          <motion.button
+            className="bg-black text-white cursor-pointer px-6 py-3 rounded-xl hover:bg-gray-800 transition-all"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Explore Products
+          </motion.button>
+        </Link>
       </motion.div>
     </motion.div>
   );

@@ -339,7 +339,7 @@ export function CheckoutPage() {
             </Link>
             <button
               onClick={() => dispatch(clearCart())}
-              className="w-full border border-red-500 text-red-500 py-3 rounded-xl hover:bg-red-50 transition"
+              className="w-full border cursor-pointer border-red-500 text-red-500 py-3 rounded-xl hover:bg-red-50 transition"
             >
               Clear Cart
             </button>
