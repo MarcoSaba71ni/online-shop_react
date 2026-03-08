@@ -25,19 +25,19 @@ export interface ProductReview {
     rating: number,
     decription: string
 }
-// Interface for Product Card Prop
+
 export interface ProductCardProp {
     product: Product,
     onAdd: (product: Product) => void,
     onRemove: (id: string) => void
 }
-// Interface for Product List Prop
+
 export interface ProductListProp {
     products:Product[],
     onAdd: (product: Product) => void,
     onRemove: (id:string) => void
 }
-// Interface for API Error
+
 export interface ApiError {
     status: number | null,
     message: string

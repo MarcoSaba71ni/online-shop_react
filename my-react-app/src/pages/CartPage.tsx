@@ -4,12 +4,9 @@ import { RootState , AppDispatch} from "../app/store";
 import { Link } from "@tanstack/react-router";
 
 
-
-
 export function CartPage() {
 
     const cartItems = useSelector((state: RootState)=> state.cart.items);
-
 
     const dispatch = useDispatch<AppDispatch>();
     const subTotal = cartItems.reduce(
@@ -19,7 +16,6 @@ export function CartPage() {
     const shipmentFee = 15;
     const total = subTotal + shipmentFee;
 
-
     if (cartItems.length === 0) {
         return (
         <div className="text-center mt-20">
@@ -28,7 +24,7 @@ export function CartPage() {
             Looks like you haven’t added anything yet.
             </p>
         </div>
-        );
+    );
     }
     return (
         <div className="max-w-7xl flex flex-col mx-auto px-6 mt-10">
@@ -78,18 +74,14 @@ export function CartPage() {
                                         </button>
                                     </div>
                                     </div>
-
-                                    {/* ✅ UPDATED ITEM TOTAL */}
                                     <p className="text-lg font-semibold mt-4">
                                     ${(item.price * item.quantity).toFixed(2)}
                                     </p>
                                 </div>
-                                
                             </div>
                         </div>
                     ))}                    
                 </div>
-                
                 <div className="bg-white rounded-2xl shadow-lg w-full lg:w-80 transition-shadow duration-300 flex flex-col p-6 gap-6 lg:sticky lg:top-10">
                     <div className="flex flex-col gap-6">
                         <h3 className="text-lg border-b pb-3">Cart Total</h3>                        
@@ -107,14 +99,11 @@ export function CartPage() {
                         </div>                        
                     </div>
                     <div className="mt-6 flex flex-col gap-3">
-                        {/* Primary Button */}
                         <Link
                         to="/checkout"
                         className="w-full bg-black text-white py-3 text-center cursor-pointer rounded-xl hover:bg-gray-800 transition">
                         Checkout
                         </Link>
-
-                        {/* Secondary Button */}
                         <button
                         onClick={() => dispatch(clearCart())}
                         className="w-full border border-red-500 text-red-500 py-3 cursor-pointer rounded-xl hover:bg-red-50 transition"
@@ -123,7 +112,6 @@ export function CartPage() {
                         </button>
                     </div>
                 </div>     
-
             </div>
         </div>
     );

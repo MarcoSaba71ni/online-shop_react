@@ -7,14 +7,13 @@ export const API_URL_PRODUCTS = "https://v2.api.noroff.dev/online-shop";
 
 export function HomePage() {
 
-  // From here 
   const [items, setItems] = useState<Product[]>([]); 
   const [ allProducts , setAllProducts ] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1); 
   const [isLoading, setIsLoading] = useState(false); 
   const [hasMore, setHasMore] = useState(true); 
   const [error, setError] = useState<ApiError | null >(null);
-  // To here will be deleted
+
   const [ searchTerm , setSearchTerm ] = useState('');
 
   const LIMIT = 6; 
@@ -22,13 +21,10 @@ export function HomePage() {
   const isFetchingRef = useRef(false);
 
 
-  async function loadProducts(page:number): Promise<void> { // page has no type
-    setError(null); // error state to be null 
+  async function loadProducts(page:number): Promise<void> {
+    setError(null);
     if (isFetchingRef.current) return;
-
     isFetchingRef.current = true;
-
-
     try {
         setIsLoading(true); 
         const response = await fetch(`${API_URL_PRODUCTS}?page=${page}&limit=${LIMIT}`);
@@ -50,7 +46,6 @@ export function HomePage() {
         else if (response.status >= 500) {
           message = "Server error. Please try again later.";
         }
-
         throw {
           status: response.status,
           message
@@ -59,9 +54,9 @@ export function HomePage() {
         const result = await response.json();
         console.log("Fetched products:", result.data);
 
-        setItems((prev) => {  // prev has no type
+        setItems((prev) => {
 
-        const existingIds = new Set(prev.map((p) => p.id));  // id has no type
+        const existingIds = new Set(prev.map((p) => p.id));
         const newItems = result.data.filter(
         (p:Product) => !existingIds.has(p.id)
       );
@@ -78,7 +73,7 @@ export function HomePage() {
       setError( error as ApiError)
      else {
       setError({
-        status: null,  // status has no type
+        status: null, 
         message: "Network error. Please check your internet connection."
       });
     }
@@ -88,7 +83,6 @@ export function HomePage() {
         isFetchingRef.current = false;
     }
 }
-  // We create the useQuery here for data (items), currentPage, isLoading, hasMore and error - maybe searchTerm as well
   useEffect(() => {
     loadProducts(currentPage);
   }, [currentPage]);
@@ -101,27 +95,22 @@ useEffect(() => {
       const data = await response.json();
       setAllProducts(data.data);
     } catch (error) {
-      console.log(error);
+      throw new Error
     }
   }
 
-  fetchAllProducts(); // <— call it here
-}, []); // empty dependency → runs only once
+  fetchAllProducts(); 
+}, []);
 
-
-
-
-  function addProduct(product: Product) {  // title and price has no type
-    setItems((prev) => [product, ...prev]);  // prev has no type
+  function addProduct(product: Product) {
+    setItems((prev) => [product, ...prev]);
   }
 
-  function removeProduct(id:string) {  // id has no type
+  function removeProduct(id:string) {
     setItems((prev) => prev.filter((product) => product.id !== id)); 
   }
-
-      // WHERE TO PLACE THE FILTERED CONSTANT?
       const paginatedProducts: Product[] = items.filter((product) =>
-        product.title.toLowerCase().includes(searchTerm.toLowerCase())  // title has no type
+        product.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
       const filteredProducts: Product[] = allProducts.filter((product) => 
@@ -140,25 +129,61 @@ useEffect(() => {
 
       <ProductList
         products={searchTerm ? filteredProducts : paginatedProducts}
-        onAdd={addProduct}  // onAdd has no type
+        onAdd={addProduct}
         onRemove={removeProduct}
       />
 
       {isLoading && isLoading &&
-
-        <div className="min-h-screen flex justify-center items-center p-6">
-          <div className="animate-pulse max-w-5xl w-full grid md:grid-cols-2 gap-8">
-            <div className="bg-gray-200 h-96 rounded-2xl" />
-            <div className="space-y-4">
-              <div className="bg-gray-200 h-8 w-3/4 rounded" />
-              <div className="bg-gray-200 h-6 w-full rounded" />
-              <div className="bg-gray-200 h-6 w-2/3 rounded" />
-              <div className="bg-gray-200 h-10 w-1/3 rounded" />
+        <div className="bg-gray-100 min-h-screen py-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto px-4 gap-6 animate-pulse">
+            <div className="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col">
+              <div className="h-64 bg-gray-200"></div>
+              <div className="p-5 flex flex-col flex-1 space-y-3">
+                <div className="h-6 bg-gray-200 rounded w-3/4"></div>
+                <div className="mt-auto space-y-2">
+                  <div className="h-6 bg-gray-200 rounded w-1/3"></div>
+                  <div className="h-4 bg-gray-200 rounded w-1/4"></div>
+                  <div className="h-4 bg-gray-200 rounded w-1/5"></div>
+                </div>
+              </div>
+              <div className="p-5 pt-0">
+                <div className="h-10 bg-gray-200 rounded-xl"></div>
+              </div>
             </div>
-          </div>
-        </div>}
+            <div className="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col">
+              <div className="h-64 bg-gray-200"></div>
+              <div className="p-5 flex flex-col flex-1 space-y-3">
+                <div className="h-6 bg-gray-200 rounded w-3/4"></div>
+                <div className="mt-auto space-y-2">
+                  <div className="h-6 bg-gray-200 rounded w-1/3"></div>
+                  <div className="h-4 bg-gray-200 rounded w-1/4"></div>
+                  <div className="h-4 bg-gray-200 rounded w-1/5"></div>
+                </div>
+              </div>
+              <div className="p-5 pt-0">
+                <div className="h-10 bg-gray-200 rounded-xl"></div>
+              </div>
+            </div>
+            <div className="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col">
+              <div className="h-64 bg-gray-200"></div>
+              <div className="p-5 flex flex-col flex-1 space-y-3">
+                <div className="h-6 bg-gray-200 rounded w-3/4"></div>
+                <div className="mt-auto space-y-2">
+                  <div className="h-6 bg-gray-200 rounded w-1/3"></div>
+                  <div className="h-4 bg-gray-200 rounded w-1/4"></div>
+                  <div className="h-4 bg-gray-200 rounded w-1/5"></div>
+                </div>
+              </div>
+              <div className="p-5 pt-0">
+                <div className="h-10 bg-gray-200 rounded-xl"></div>
+              </div>
+            </div>
 
-      {!isLoading && hasMore && !error && ( // if is loading, has more and no error we display btn
+          </div>
+        </div>
+        }
+
+      {!isLoading && hasMore && !error && (
         <div className="flex justify-center mb-6">
           <button 
           className="px-6 py-2 bg-black cursor-pointer text-white rounded-lg hover:opacity-80 transition"
@@ -170,7 +195,7 @@ useEffect(() => {
 
       {!hasMore && <p>No more products to load.</p>} 
 
-      {error && // if error is present
+      {error && 
       <div className="min-h-screen flex flex-col justify-center items-center gap-4">
             <p className="text-red-600 font-semibold">
               Something went wrong 😢
@@ -178,7 +203,7 @@ useEffect(() => {
             <p className="text-gray-500">{error.message}</p>  // message has no type
           </div>}
           
-      {paginatedProducts.length < 1 &&  // paginatedProducts has no type
+      {paginatedProducts.length < 1 &&
       <p 
       className="mx-auto flex justify-center font-bold text-3xl"
       >NO MATCHING PRODUCTS</p>}

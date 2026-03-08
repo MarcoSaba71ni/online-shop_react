@@ -40,7 +40,7 @@ export function Navbar() {
         </div>
         <div>
           <Link to="/">
-          <h1 className="text-2xl font-bold mb-4 mt-2 cursor-pointer transition-transform duration-200 hover:scale-110">OnShp</h1>
+            <h1 className="text-2xl font-bold mb-4 mt-2 cursor-pointer transition-transform duration-200 hover:scale-110">OnShp</h1>
           </Link>  
         </div>
         <nav className="hidden flex-row gap-6 sm:flex">
@@ -57,7 +57,6 @@ export function Navbar() {
         <div className="cursor-pointer transition-transform duration-200 hover:scale-110">
           <Link to="/cart" className="relative ">
             <i className="fa-solid text-xl text-white fa-cart-arrow-down"></i>
-
             <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1 rounded-full">
               {totalQuantity}
             </span>
@@ -65,18 +64,7 @@ export function Navbar() {
         </div>
         <nav
         ref={menuRef}
-        className={`
-          sm:hidden
-          absolute
-          top-20
-          left-0
-          w-32
-          bg-black
-          text-white
-          rounded
-          flex flex-col
-          z-50
-          transition-all duration-200
+        className={`sm:hidden absolute top-20 left-0 w-32 bg-black text-white rounded flex flex-col z-50 transition-all duration-200
           ${menuOpen ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}
         `}
       >
@@ -87,7 +75,6 @@ export function Navbar() {
         >
           Home
         </Link>
-
         <Link
           className="hover:bg-white hover:text-black p-2"
           onClick={() => setMenuOpen(false)}
@@ -95,7 +82,6 @@ export function Navbar() {
         >
           About
         </Link>
-
         <Link
           className="hover:bg-white hover:text-black mb-1 p-2 pb-1"
           onClick={() => setMenuOpen(false)}

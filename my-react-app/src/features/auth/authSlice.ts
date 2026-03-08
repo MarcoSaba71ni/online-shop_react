@@ -1,13 +1,11 @@
 import { createSlice , createAsyncThunk } from "@reduxjs/toolkit";
 
 
-// Mock API function for login
+
 const mockLoginAPI = async ({ email, password }) => {
     console.log(`API: Attempting login for ${email}...`);
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate network delay
+    await new Promise((resolve) => setTimeout(resolve, 1000)); 
     if (email === 'test@example.com' && password === 'password') {
-        console.log('API: Login successful');
-        // Real API would return user data and a token
         return {
             user: { id: 'u123', name: 'Test Bruker', email },
             token: 'fake-jwt-token-12345',
@@ -18,17 +16,13 @@ const mockLoginAPI = async ({ email, password }) => {
     }
 };
 
-// Async thunk for the login action
 export const loginUser = createAsyncThunk(
     'auth/loginUser',
     async (credentials, { rejectWithValue }) => {
-        // credentials = { email, password }
         try {
             const data = await mockLoginAPI(credentials);
-            // Returned value becomes the fulfilled action payload
             return data;
         } catch (error) {
-            // Use rejectWithValue to return a specific error payload
             return rejectWithValue(error.message);
         }
     },
