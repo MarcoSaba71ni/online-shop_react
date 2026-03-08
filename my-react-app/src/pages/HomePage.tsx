@@ -119,7 +119,7 @@ useEffect(() => {
   return (
     <div className="flex flex-col gap-6 mt-6">
       <input 
-        className="border border-gray-300 rounded-xl mx-24 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black transition"
+        className="border border-gray-300 rounded-xl mx-6 sm:mx-24 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black transition"
         placeholder="Search products..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}>
@@ -205,7 +205,7 @@ useEffect(() => {
           
       {paginatedProducts.length < 1 &&
       <p 
-      className="mx-auto flex justify-center font-bold text-3xl"
+      className="mx-12 flex justify-center font-bold text-3xl"
       >NO MATCHING PRODUCTS</p>}
     </div>
   );
